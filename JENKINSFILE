@@ -1,0 +1,11 @@
+node {
+    stage('Get Code') {
+        git branch: 'master', url: 'https://github.com/davidiazgonz-design/todo-list-aws-config.git'
+        
+        echo '=== Descargando configuración de Producción desde el repositorio de configuración ==='
+        
+        withCredentials([usernamePassword(credentialsId: 'github-token-escritura', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+            sh 'curl -H "Authorization: token ${GIT_PASSWORD}" -L https://raw.githubusercontent.com/davidiazgonz-design/todo-list-aws-config/production/samconfig.toml -o samconfig.toml'
+        }
+    }
+}
